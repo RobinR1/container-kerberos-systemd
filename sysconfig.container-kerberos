@@ -1,0 +1,65 @@
+## Path:        Container/kerberos
+## Description: Settings for RobinR1's kerberos container
+## Type:        string
+## Default:     "registry.opensuse.org/home/robinr1/containers/containers/kerberos:latest"
+#
+# Name of the image path to pull the kerberos image from
+KERBEROS_IMAGE_PATH=registry.opensuse.org/home/robinr1/containers/containers/kerberos:latest
+
+## Type:        string
+## Default:     "/srv/kerberos/"
+#
+# Name of the path where the kerberos data will be stored
+DATA_DIR="/srv/kerberos"
+
+## Type:        string
+## Default:     "/etc/pki/tls/CA/CA.pem"
+#
+# Full path and filename of the LDAP server certificate CA certificate chain.
+CA_CERTIFICATE_CHAIN="/etc/pki/tls/CA/CA.pem"
+
+## Type:        string
+## Default:     "EXAMPLE.NET"
+#
+# Name of the Kerberos REALM for this server
+REALM_NAME=EXAMPLE.NET
+
+## Type:        string
+## Default:     "$(hostname -f)"
+#
+# FQDN of LDAP directory server
+LDAP_HOST=$(hostname -f)
+
+## Type:        string
+## Default      "dc=example,dc=com"
+#
+# Directory server suffix
+DIR_SUFFIX=dc=example,dc=com
+
+## Type:        integer
+## Default:     636
+#
+# The port the LDAP dirsrv LDAPS service is listening on
+LDAPS_PORT=636
+
+## Type:        integer
+## Default:     88
+#
+# The port the kerberos kdc server will listen on
+KDC_PORT=88
+
+## Type:        integer
+## Default:     749
+#
+# The port the kerberos kadmin server will listen on
+KADMIN_PORT=749
+
+## Type:        string
+## Default:     "/etc/kerberos-secrets"
+#
+# Path where the files with the passwords for MASTER_PASS, ADMIN_PASS, 
+# KDC_PASS and DM_PASS can be found. The file names need to be the ones
+# of the variable names and should not be readable for anybody else.
+# You can safely remove those files after first initialization of the
+# container
+SECRETS_DIR="/etc/kerberos-secrets"
