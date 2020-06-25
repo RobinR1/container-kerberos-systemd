@@ -1,7 +1,7 @@
 [Unit]
 Description=kerberos container
 Documentation=https://build.opensuse.org/package/show/home:RobinR1:containers/kerberos
-After=network-online.target
+After=network-online.target container-389ds-dirsrv.service
 
 [Service]
 TimeoutStartSec=0
@@ -11,7 +11,7 @@ ExecStartPre=-/usr/bin/mkdir -p ${DATA_DIR}
 ExecStartPre=-/usr/bin/podman stop kerberos
 ExecStartPre=-/usr/bin/podman rm kerberos
 ExecStartPre=-/usr/bin/podman pull ${KERBEROS_IMAGE_PATH}
-ExecStart=/usr/bin/podman run --rm -v ${DATA_DIR}:/var/lib/kerberos/krb5kdc -v ${CA_CERTIFICATE_CHAIN}:/data/tsl/ca/CA.crt --e REALM_NAME=${REALM_NAME} -e DIR_SUFFIX=${DIR_SUFFIX} -e LDAP_HOST={$LDAP_HOST} -e LDAP_PORT={$LDAPS_PORT} -v ${SECRETS_DIR}:/etc/kerberos-secrets -e MASTER_PASS_FILE=/etc/kerberos-secrets/MASTER_PASS -e ADMIN_PASS_FILE=/etc/kerberos-secrets/ADMIN_PASS -e KDC_PASS_FILE=/etc/kerberos-secrets/KDC_PASS -e DM_PASS_FILE=/etc/kerberos-secrets/DM_PASS -p ${KDC_PORT}:88 -p ${KADMIN_PORT}:749 --healthcheck-command '/usr/bin/start.sh healthcheck' --name kerberos ${KERBEROS_IMAGE_PATH}
+ExecStart=/usr/bin/podman run --rm -v ${DATA_DIR}:/var/lib/kerberos/krb5kdc -v ${CA_CERTIFICATE_CHAIN}:/data/tsl/ca/CA.crt -e REALM_NAME=${REALM_NAME} -e DIR_SUFFIX=${DIR_SUFFIX} -e LDAP_HOST={$LDAP_HOST} -e LDAP_PORT={$LDAPS_PORT} -v ${SECRETS_DIR}:/etc/kerberos-secrets -e MASTER_PASS_FILE=/etc/kerberos-secrets/MASTER_PASS -e ADMIN_PASS_FILE=/etc/kerberos-secrets/ADMIN_PASS -e KDC_PASS_FILE=/etc/kerberos-secrets/KDC_PASS -e DM_PASS_FILE=/etc/kerberos-secrets/DM_PASS -p ${KDC_PORT}:88 -p ${KADMIN_PORT}:749 --healthcheck-command '/usr/bin/start.sh healthcheck' --name kerberos ${KERBEROS_IMAGE_PATH}
 ExecStop=/usr/bin/podman stop -t 10 kerberos
 
 [Install]
